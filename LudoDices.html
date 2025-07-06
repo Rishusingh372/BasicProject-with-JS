@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ludo Dice Roller</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            /* background-color: #f0f8ff; */
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 3rem;
+            background-color: white;
+            color: #2c3e50;
+            margin: 0.5rem 0;
+        }
+
+        #ludo {
+            margin: 1.5rem 0;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .dice-image {
+            width: 100px;
+            height: 100px;
+            transition: transform 0.5s ease;
+        }
+
+        .rolling {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(-15deg);
+            }
+
+            50% {
+                transform: rotate(15deg);
+            }
+
+            75% {
+                transform: rotate(-10deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+    </style>
+</head>
+
+<body background="https://m.media-amazon.com/images/I/61-nyuY29wL.jpg" top="0" left="0" width="100%" height="60%"
+    style="z-index: -1;  background-position: center; background-repeat: no-repeat;">
+    <div class="container">
+        <h1>Ludo Dice</h1>
+        <div id="ludo">
+            <img src="1.png" alt="dice" class="dice-image" width="100px" height="100px">
+            <h1>1</h1>
+        </div>
+        <button onclick="rollDice()">Roll Dice</button>
+    </div>
+
+    <script>
+        // Array of dice image paths - replace with your actual image paths
+        const ludonumber = [
+            "1.png",
+            "2.png",
+            "3.png",
+            "4.png",
+            "5.png",
+            "6.png"
+        ];
+
+        // Audio for dice roll
+        const diceSound = new Audio('dice-roller.mp3'); // Add your dice roll sound file
+
+        function rollDice() {
+            const ludoElement = document.getElementById("ludo");
+            const diceImage = ludoElement.querySelector('img');
+
+            // Add rolling animation
+            diceImage.classList.add('rolling');
+
+            // Play dice sound
+            diceSound.currentTime = 0;
+            diceSound.play();
+
+            // Disable button during roll
+            document.querySelector('button').disabled = true;
+
+            // Show rolling animation for 1 second before showing result
+            setTimeout(() => {
+                let n = Math.floor(Math.random() * 6);
+                diceImage.classList.remove('rolling');
+
+                ludoElement.innerHTML = `
+                    <img src="${ludonumber[n]}" alt="dice ${n + 1}" class="dice-image" width="100px" height="100px">
+                    <h1>${n + 1}</h1>
+                `;
+
+                // Re-enable button
+                document.querySelector('button').disabled = false;
+            }, 200);
+        }
+    </script>
+</body>
+
+</html>
